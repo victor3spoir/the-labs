@@ -1,0 +1,9 @@
+name: 002-ofelia-cron
+
+include:
+  - "./composes/ofelia.compose.yml"
+  - "./composes/services.compose.yml"
+
+networks:
+  docker-net:
+   external: true

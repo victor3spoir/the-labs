@@ -1,0 +1,91 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+ping:
+  entryPoint: http
+
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: ":443"
+    transport:
+      respondingTimeouts:
+        readTimeout: 90s
+        writeTimeout: 90s
+        idleTimeout: 300s
+
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    watch: true
+    network: docker-net
+  file:
+    filename: "/etc/traefik/dynamic.yaml"
+    watch: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: admin@local.host
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      storage: "/var/traefik/certs/letsencrypt-acme.json"
+      httpChallenge:
+        entryPoint: http
+
+
+
+
+
+
+log:
+  level: DEBUG  # TRACE, INFO, DEBUG, WARN, ERROR, FATAL, PANIC
+  format: json
+  filePath: "/var/log/traefik/traefik.log"
+
+accessLog:
+  format: json
+  addInternals: true
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+  filters:
+    statusCodes:
+      - "200-299"
+      - "400-599"
+  fields:
+    defaultMode: keep
+    names:
+      ClientUsername: drop
+    headers:
+      defaultMode: keep #drop|keep
+      names:
+        User-Agent: keep
+        X-Real-Ip: keep
+        X-Forwarded-For: keep
+        X-Forwarded-Proto: keep
+        
+
+experimental:
+  fastProxy:
+    debug: true
+  otlplogs: true
+  plugins:
+    bouncer:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.4.6 
+    geoblock:
+      moduleName: github.com/PascalMinder/geoblock
+      version: v0.3.3

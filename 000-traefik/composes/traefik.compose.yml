@@ -1,0 +1,50 @@
+services:
+  traefik:
+    image: traefik:v3.6.6
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: "400Mib"
+          cpus: "0.5"
+    networks:
+      - docker-net
+      - traefik-net
+    ports:
+      - 80:80
+      - 443:443
+    configs:
+      - source: traefik_config
+        target: /etc/traefik/traefik.yml
+      - source: dynamic_config
+        target: /etc/traefik/dynamic.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/certs:/var/traefik/certs:rw
+      - ./data/logs:/var/log/traefik:rw
+    environment:
+      - TZ=UTC
+      - ACME_EMAIL=user@gmail.com
+      - CF_DNS_API_TOKEN=change-this-for-cloudflare-dns-challenge
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-rtr.entrypoints: https
+      traefik.http.routers.traefik-rtr.rule: Host(`traefik.127-0-0-1.traefik.me`)
+      traefik.http.routers.traefik-rtr.tls: true
+      traefik.http.routers.traefik-rtr.tls.certresolver: letsencrypt
+      traefik.http.routers.traefik-rtr.tls.domains[0].main: "127-0-0-1.traefik.me"
+      traefik.http.routers.traefik-rtr.tls.domains[0].sans: "*.127-0-0-1.traefik.me"
+      traefik.http.routers.traefik-rtr.service: api@internal
+
+
+
+
+
+configs:
+  traefik_config:
+    file: ./configs/traefik.yml
+  dynamic_config:
+    file: ./configs/dynamic.yaml
+
+
+
