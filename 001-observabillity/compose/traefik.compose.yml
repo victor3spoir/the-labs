@@ -1,0 +1,79 @@
+
+services:
+  traefik:
+    image: traefik:v3.6.6
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: "400Mib"
+          cpus: "0.5"
+    command:
+      - --global.checknewversion=true
+      - --global.sendanonymoususage=false
+      - --api.insecure=true
+      - --api.dashboard=true
+      - --api.debug=true
+      - --ping=true
+      - --ping.entryPoint=http
+
+      - --entryPoints.http.address=:80
+      - --entryPoints.https.address=:443
+      - --entryPoints.http.http.redirections.entryPoint.to=https
+      - --entryPoints.http.http.redirections.entryPoint.scheme=https
+
+      - --providers.docker.endpoint=unix://var/run/docker.sock
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=docker-net
+      - --providers.file.filename=/etc/traefik/dynamic.yaml
+      - --providers.file.watch=true
+
+      - --certificatesResolvers.letsencrypt.acme.email=${ACME_EMAIL}
+      - --certificatesResolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesResolvers.letsencrypt.acme.storage=/var/traefik/certs/letsencrypt-acme.json
+      - --certificatesResolvers.letsencrypt.acme.httpChallenge.entrypoint=http
+
+      - --log.level=INFO # TRACE - INFO - DEBUG - WARN - ERROR - FATAL - PANIC
+      - --log.format=json
+      - --log.nocolor=false
+      - --log.compress=true
+      - --accessLog=true
+      - --accesslog.format=json
+      - --accessLog.addinternals=true
+      - --accesslog.filepath=/var/log/traefik/access.log
+      
+      - --experimental.fastProxy
+      - --experimental.otlpLogs=true
+
+    networks:
+      docker-net:
+    ports:
+      - '127.0.0.1:80:80'
+      - '127.0.0.1:443:443'
+    configs:
+      - source: treafik_dynamic_conf
+        target: /etc/traefik/dynamic.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/certs:/var/traefik/certs:rw
+      - ./data/logs:/var/log/traefik/:rw
+    environment:
+      - TZ=UTC
+      - ACME_EMAIL=user@gmail.com
+    labels:
+      traefik.enable: "true"
+      
+      traefik.http.routers.traefik-rtr.service: "api@internal"
+
+      traefik.http.routers.traefik-rtr.entrypoints: "https"
+      traefik.http.routers.traefik-rtr.rule: "Host(`traefik.127-0-0-1.traefik.me`)"
+      traefik.http.routers.traefik-rtr.tls: "true"
+      traefik.http.routers.traefik-rtr.tls.certresolver: letsencrypt
+      traefik.http.routers.traefik-rtr.tls.domains[0].main: "127-0-0-1.traefik.me"
+      traefik.http.routers.traefik-rtr.tls.domains[0].sans: "*.127-0-0-1.traefik.me"
+
+configs:
+  treafik_dynamic_conf:
+    content: |
+      
+

@@ -45,20 +45,6 @@ We actively welcome your pull requests! Here's the process:
 - Keep configurations simple and well-commented
 - Include inline comments for complex logic or security-specific settings
 
-### Directory Structure
-
-When adding new boilerplates:
-
-```
-category/
-├── tool-or-service/
-│   ├── README.md              # Detailed documentation
-│   ├── example-config.yml     # Main configuration file
-│   ├── .env.example          # Environment variables template (if needed)
-│   └── docs/                 # Additional documentation
-│       └── setup-guide.md
-```
-
 ### Documentation Requirements
 
 Every boilerplate MUST include:
