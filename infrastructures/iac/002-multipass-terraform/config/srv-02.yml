@@ -1,0 +1,31 @@
+#cloud-config
+hostname: srv-dev-02
+manage_etc_hosts: true
+
+apt_update: true
+# apt_upgrade: true
+locale: fr_FR.UTF-8
+
+
+
+packages:
+  - build-essential
+  - gpg
+  - zsh
+  # - docker.io
+
+users:
+  - name: demo
+    groups: sudo,docker
+    shell: /bin/zsh
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZmk9JmH28XMQd+V1vIlNnr0OdAzxrhSVyIrpIM4JIs
+
+
+
+runcmd:
+  - systemctl enable docker
+  - systemctl start docker
+  - systemctl enable ssh
+  - systemctl start ssh
