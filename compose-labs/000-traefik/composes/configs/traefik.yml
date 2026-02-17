@@ -8,17 +8,17 @@ api:
   debug: true
 
 ping:
-  entryPoint: http
+  entryPoint: web
 
 entryPoints:
-  http:
+  web:
     address: ":80"
     http:
       redirections:
         entryPoint:
           to: https
           scheme: https
-  https:
+  websecure:
     address: ":443"
     transport:
       respondingTimeouts:
@@ -44,7 +44,7 @@ certificatesResolvers:
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       storage: "/var/traefik/certs/letsencrypt-acme.json"
       httpChallenge:
-        entryPoint: http
+        entryPoint: web
 
 
 

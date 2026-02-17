@@ -1,0 +1,27 @@
+#cloud-config
+hostname: srv-02
+manage_etc_hosts: true
+
+apt_update: true
+locale: fr_FR.UTF-8
+
+
+
+packages:
+  - build-essential
+  - gpg
+  - zsh
+
+users:
+  - name: demo
+    groups: sudo
+    shell: /bin/zsh
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuqfhaycTfJKPVZsao0+3YUqEB2SGgnGPr3xlMKmq5r
+
+
+
+runcmd:
+  - systemctl enable ssh
+  - systemctl start ssh

@@ -55,7 +55,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.services.traefik-dashboard-svc.loadbalancer.server.port: "3001"
-      traefik.http.routers.traefik-dashboard-rtr.entrypoints: https
+      traefik.http.routers.traefik-dashboard-rtr.entrypoints: websecure
       traefik.http.routers.traefik-dashboard-rtr.rule: Host(`traefik-dashboard.127-0-0-1.traefik.me`)
       traefik.http.routers.traefik-dashboard-rtr.tls: true
       traefik.http.routers.traefik-dashboard-rtr.tls.certresolver: letsencrypt
