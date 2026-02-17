@@ -9,7 +9,7 @@ resource "multipass_instance" "srv_dev_01" {
 }
 
 resource "multipass_instance" "srv_dev_02" {
-  name   = "srv-dev-01"
+  name   = "srv-dev-02"
   image  = var.image
   cpus   = var.vm_cpus
   memory = var.vm_memory
