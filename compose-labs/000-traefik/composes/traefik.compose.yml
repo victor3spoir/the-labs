@@ -28,7 +28,7 @@ services:
       - CF_DNS_API_TOKEN=change-this-for-cloudflare-dns-challenge
     labels:
       traefik.enable: true
-      traefik.http.routers.traefik-rtr.entrypoints: https
+      traefik.http.routers.traefik-rtr.entrypoints: websecure
       traefik.http.routers.traefik-rtr.rule: Host(`traefik.127-0-0-1.traefik.me`)
       traefik.http.routers.traefik-rtr.tls: true
       traefik.http.routers.traefik-rtr.tls.certresolver: letsencrypt
@@ -44,7 +44,7 @@ configs:
   traefik_config:
     file: ./configs/traefik.yml
   dynamic_config:
-    file: ./configs/dynamic.yaml
+    file: ./configs/traefik_dynamic.yml
 
 
 
