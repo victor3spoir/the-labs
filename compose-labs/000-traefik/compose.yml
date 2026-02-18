@@ -1,0 +1,10 @@
+name: traefik
+
+include:
+  - "./composes/traefik.compose.yml"
+  - "./composes/dashboard.compose.yml"
+
+networks:
+  docker-net:
+    external: true
+  traefik-net: {}
