@@ -14,8 +14,7 @@ services:
       - -c
     command: 
       - tail -f /dev/null
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
     configs:
       - source: private_key
         target: /root/.ssh/private_key
