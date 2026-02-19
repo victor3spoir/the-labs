@@ -18,6 +18,8 @@ services:
     configs:
       - source: private_key
         target: /root/.ssh/private_key
+        mode: 0400
+
     volumes:
       - ./config/inventory.yml:/ansible/inventory.yml
       - ./config/playbooks:/ansible/playbooks

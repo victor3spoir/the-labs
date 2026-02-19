@@ -21,6 +21,7 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZmk9JmH28XMQd+V1vIlNnr0OdAzxrhSVyIrpIM4JIs
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+jS1XEWDyQULVsU34b1h2OnQD5rChONnuUHcuYWT8T
 
 
 

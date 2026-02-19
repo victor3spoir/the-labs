@@ -19,7 +19,7 @@ variable "vm_cpus" {
 variable "vm_disk_size" {
   description = "Disk size for each VM"
   type        = string
-  default     = "10G"
+  default     = "5G"
 }
 
 variable "image" {

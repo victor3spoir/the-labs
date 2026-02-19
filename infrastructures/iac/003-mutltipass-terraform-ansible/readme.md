@@ -4,6 +4,12 @@
 
 First of all, make sure to add the private key of your root/admin user in the config folder `./config/private_key` (this will be used in compose file).
 
+- Si vous n'avez pas de clée ssh, vous générer avec la commande ci-après
+
+```bash
+ssh-keygen -f ed25519 -f ~/.ssh/local
+```
+
 - Create the _ansible_ image that will help you work with ansible
 
 ```bash
