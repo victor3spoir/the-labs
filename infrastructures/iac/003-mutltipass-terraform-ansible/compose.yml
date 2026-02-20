@@ -2,25 +2,32 @@ name: ansible
 
 configs:
   private_key:
-    file: ./config/private_key
+    file: ./config/ansible/private_key
+  entrypoint_sh:
+    content: |
+      #!/bin/sh 
+      mkdir -p /root/.ssh
+      cat /tmp/private_key | tr -d '\015' > /root/.ssh/private_key
+      echo "" >> /root/.ssh/private_key
+      chmod 600 /root/.ssh/private_key
+      exec tail -f /dev/null
 
 services:
   ansible:
     image: ansible:dev
     working_dir: /ansible
-    # network_mode: host
     entrypoint: 
-      - /bin/sh
-      - -c
-    command: 
-      - tail -f /dev/null
+      - /bin/sh 
+      - /entrypoint.sh
 
     configs:
+      - source: entrypoint_sh
+        target: /entrypoint.sh
+        mode: 0555
       - source: private_key
-        target: /root/.ssh/private_key
+        target: /tmp/private_key
     volumes:
-      - ./config/inventory.yml:/ansible/inventory.yml
-      - ./config/playbooks:/ansible/playbooks
+      - ./config/ansible:/ansible:rw
     environment:
       - ANSIBLE_HOST_KEY_CHECKING=false
-      - ANSIBLE_PYTHON_INTERPRETER=/usr/bin/python3.13
+      - ANSIBLE_PYTHON_INTERPRETER=auto

@@ -7,4 +7,3 @@ prod:
   vars:
    ansible_user: demo
    ansible_ssh_private_key_file: /root/.ssh/private_key
-   ansible_become_pass: demo 
