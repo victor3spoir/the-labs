@@ -2,7 +2,7 @@ name: ansible
 
 configs:
   private_key:
-    file: ./config/ansible/private_key
+    file: ./config/private_key
   entrypoint_sh:
     content: |
       #!/bin/sh 

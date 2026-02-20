@@ -71,3 +71,13 @@ ansible -i inventory.yml prod -m service -a "name=ssh state=started" --become
 ansible -i inventory.yml prod -m group -a "name=developers state=present" --become #present != absend
 ansible -i inventory.yml prod -m user -a "name=john state=present group=developers create_home=yes shell=/bin/bash" --become #present != absend
 ```
+
+### Deal with playbooks
+
+```bash
+ansible-playbook -i inventory.yml playbook.yml
+```
+
+### Deal with roles
+
+Set of predefined playbooks downloadable by using `ansible-galaxy install`

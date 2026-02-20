@@ -1,0 +1,6 @@
+- name: harden ununtu vps
+  hosts: all
+  become: true
+
+  roles:
+    - dev-sec.os-hardening
