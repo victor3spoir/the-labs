@@ -1,4 +1,4 @@
-- name: harden ununtu vps
+- name: harden ubuntu vps
   hosts: all
   become: true
 

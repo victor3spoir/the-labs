@@ -39,11 +39,11 @@ docker-compose up -d ansible
 - Test if ansible is working well
 
 ```bash
-docker-compose exec -it ansible sh -c "ansible all -m ping -i inventory.yml"
+docker-compose exec -it ansible sh -c "ansible all -m ping -i inventory/hosts.yml"
 ```
 
 ```bash
-docker-compose exec -it ansible ansible-playbook playbooks/main.yml -i inventory.yml
+docker-compose exec -it ansible ansible-playbook playbooks/main.yml -i inventory/hosts.yml
 
 ```
 
@@ -53,29 +53,29 @@ Use docker-compose exec -it to get in the container
 
 ```bash
 # Gather information about hosts
-anisble -i inventory.yml prod -m setup
+anisble -i inventory/hosts.yml prod -m setup
 
 # Run shell command on hosts
-anisble -i inventory.yml prod -m shell -a 'df -h'
+anisble -i inventory/hosts.yml prod -m shell -a 'df -h'
 
 # Running script on the hosts
-anisble -i inventory.yml prod -m script -a "./script.sh" --become 
+anisble -i inventory/hosts.yml prod -m script -a "./script.sh" --become 
 
 # Install package using apt
-ansible -i inventory.yml prod -m apt -a "name=nmap state=present update_cache=true" --become
+ansible -i inventory/hosts.yml prod -m apt -a "name=nmap state=present update_cache=true" --become
 
 # Get service state
-ansible -i inventory.yml prod -m service -a "name=ssh state=started" --become
+ansible -i inventory/hosts.yml prod -m service -a "name=ssh state=started" --become
 
 # Manage group & users
-ansible -i inventory.yml prod -m group -a "name=developers state=present" --become #present != absend
-ansible -i inventory.yml prod -m user -a "name=john state=present group=developers create_home=yes shell=/bin/bash" --become #present != absend
+ansible -i inventory/hosts.yml prod -m group -a "name=developers state=present" --become #present != absend
+ansible -i inventory/hosts.yml prod -m user -a "name=john state=present group=developers create_home=yes shell=/bin/bash"
 ```
 
 ### Deal with playbooks
 
 ```bash
-ansible-playbook -i inventory.yml playbook.yml
+ansible-playbook  playbooks/demo.yml -i inventory/hosts.yml
 ```
 
 ### Deal with roles

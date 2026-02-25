@@ -14,3 +14,10 @@
         name: ssh
         state: started
         enabled: true
+      notify: do_someting
+
+  handlers:
+    - name: do_something
+      service:
+        name: ssh
+        state: restarted

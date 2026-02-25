@@ -1,9 +1,24 @@
 name: 002-ofelia-cron
 
-include:
-  - "./composes/ofelia.compose.yml"
-  - "./composes/services.compose.yml"
+services:
+  cron:
+    image: mcuadros/ofelia:latest
+    restart: unless-stopped
+    command: daemon --docker
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "200MiB"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
-networks:
-  docker-net:
-   external: true
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.nginx-cron.schedule: "@every 1m"
+      ofelia.job-exec.nginx-cron.command: >
+        sh -c "head -c 23 /dev/random | base64 >> '$(date +%F_%H%H).txt'"
+      ofelia.job-exec.nginx-cron.user: "root"
