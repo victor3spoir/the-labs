@@ -1,10 +1,11 @@
 #cloud-config
-hostname: srv-dev-01
+hostname: srv-dev-02
 manage_etc_hosts: true
 
 apt_update: true
 # apt_upgrade: true
 locale: fr_FR.UTF-8
+
 
 
 packages:
@@ -15,7 +16,7 @@ packages:
 
 users:
   - name: demo
-    groups: sudo,docker
+    groups: sudo
     shell: /bin/zsh
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
@@ -25,7 +26,5 @@ users:
 
 
 runcmd:
-  - systemctl enable docker
-  - systemctl start docker
   - systemctl enable ssh
   - systemctl start ssh

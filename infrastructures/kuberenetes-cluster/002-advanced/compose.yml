@@ -2,7 +2,6 @@ name: ansible
 
 configs:
   private_key:
-    # file: ./config/private_key
     file: ~/.ssh/local_key
   entrypoint_sh:
     content: |

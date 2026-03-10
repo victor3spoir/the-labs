@@ -7,8 +7,8 @@ For this setup, we will use k3s distro from rancher avalaible on: <https://k3s.i
 02 VMs will be used for this setup.
 
 ```bash
-multipass launch --memory 2G --disk 20G --name srv-k3s-01  24.04 # master node
-multipass launch --memory 1G --disk 10G --name srv-k3s-02 24.04 # worker node
+multipass launch --memory 2G --disk 20G --name srv-master  24.04 # master node
+multipass launch --memory 1G --disk 10G --name srv-worker 24.04 # worker node
 ```
 
 To get shell in the instances, use this command : `multipass shell srv-name`
@@ -17,7 +17,7 @@ To get shell in the instances, use this command : `multipass shell srv-name`
 
 The most of what is done is avalaible at the <https://docs.k3s.io/>. I recommand to read a bit the docs to get all what is going on here.
 
-Open shell in the **srv-k3s-01** & run the command below:  
+Open shell in the **srv-master** & run the command below to setup :  
 
 ```bash
 curl -sfL https://get.k3s.io | sh -
@@ -25,18 +25,15 @@ curl -sfL https://get.k3s.io | sh -
 
 ## 03. **Setup worker node**
 
-> Before all setup, make sure srv-k3s-02 1 can srv-k3s-01 and vis-versa
+> Before further setup, make sure srv-worker 1 can ping srv-master and vis-versa
 
-Open shell int the **srv-k3s-02** & run the command below :
+Open shell int the **srv-worker** & run the command below :
 
 ```bash
-curl -sfL https://get.k3s.io |  \
-  K3S_URL=https://srv-k3s-01.mshome.net:6443 \ # the IP address of the server
-  K3S_TOKEN=complex-token-value-from-srv-k3s-01 \
-  sh -
+curl -sfL https://get.k3s.io | K3S_URL=https://srv-master.mshome.net:6443 K3S_TOKEN=complex-token-value-from-srv-master sh -
 ```
 
-> Get token value by running this command on srv-k3s-01
+> Get token value by running this command on srv-master
 
 ```bash
 sudo cat /var/lib/rancher/k3s/server/token
@@ -47,7 +44,7 @@ sudo cat /var/lib/rancher/k3s/server/token
 
 All done, the cluster is setup.
 
-By default, only root user can access to kube-config located under `/etc/rancher/k3s/k3s.yaml` on the **srv-k3s-01**. For the simple user of the server, execute theses instructions
+By default, only root user can access to kube-config located under `/etc/rancher/k3s/k3s.yaml` on the **srv-master**. For the simple user of the server, execute theses instructions
 
 ```bash
 # Create kube folder
@@ -62,6 +59,7 @@ sudo chmod 600 ~/.kube/config
 export KUBECONFIG=~/.kube/config
 # or
 echo "export KUBECONFIG=~/.kube/config" >> ~/.bashrc
+source .bashrc #!IMPORTANT
 ```
 
 Tapez la commande ci-après et voyez par vous-même:
@@ -82,9 +80,9 @@ You should have the folder `~/.kube` with `config` file on your user home dir; i
 
 ### Step 02
 
-Copy the `~/.kube/config` from you srv-k3s-01 to you host. then adjust :
+Copy the `~/.kube/config` from you srv-master to you host. then adjust :
 
-* Change server from  <https://127.0.0.1:6443> to <https://srv-k3s-01.mshome.net:6443>
+* Change server from  <https://127.0.0.1:6443> to <https://srv-master.mshome.net:6443>
 
 * Add `tls-skip-verify: true` to cluster instructions
 
@@ -127,7 +125,7 @@ users:
 apiVersion: v1
 clusters:
 - cluster:
-    server: https://srv-k3s-01.mshome.net:6443
+    server: https://srv-master.mshome.net:6443
     insecure-skip-tls-verify: true
   name: k3s
 contexts:
