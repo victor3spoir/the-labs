@@ -7,7 +7,7 @@ variable "vm_name_prefix" {
 variable "vm_memory" {
   description = "Memory for each VM"
   type        = string
-  default     = "1G"
+  default     = "512M"
 }
 
 variable "vm_cpus" {

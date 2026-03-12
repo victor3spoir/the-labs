@@ -6,8 +6,6 @@ apt_update: true
 apt_upgrade: false
 locale: fr_FR.UTF-8
 
-
-
 packages:
   - build-essential
   - gpg
@@ -19,11 +17,9 @@ users:
     shell: /bin/zsh
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZmk9JmH28XMQd+V1vIlNnr0OdAzxrhSVyIrpIM4JIs
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+jS1XEWDyQULVsU34b1h2OnQD5rChONnuUHcuYWT8T
-
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZmk9JmH28XMQd+V1vIlNnr0OdAzxrhSVyIrpIM4JIs demo@host
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB+jS1XEWDyQULVsU34b1h2OnQD5rChONnuUHcuYWT8T demo@host
 
 
 runcmd:
-  - systemctl enable ssh
-  - systemctl start ssh
+  - echo "starting command"

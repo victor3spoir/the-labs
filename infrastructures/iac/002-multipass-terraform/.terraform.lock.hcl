@@ -5,6 +5,7 @@ provider "registry.terraform.io/larstobi/multipass" {
   version     = "1.4.3"
   constraints = "1.4.3"
   hashes = [
+    "h1:8+DCFMNz4q46SgV198JKCiwh0QeZKl/8rwSxrMWim0E=",
     "h1:WUiRuOZjZJ8VUFS2ogaFcRbig40XBUIrxxZpZReRNVM=",
     "zh:20fd66d1f4f2c4b1a3cfedd3642ac479c6db52fd030ca5267ddb53dfe3bbbc68",
     "zh:29aa7d8533e3b586670c055a6f8820c50be853ad8cd8f02b9e6541b8ac6bdaf1",

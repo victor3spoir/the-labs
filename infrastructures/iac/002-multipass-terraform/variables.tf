@@ -25,5 +25,5 @@ variable "vm_disk_size" {
 variable "image" {
   description = "Image to use for VMs"
   type        = string
-  default     = "24.04"
+  default     = "22.04"
 }
