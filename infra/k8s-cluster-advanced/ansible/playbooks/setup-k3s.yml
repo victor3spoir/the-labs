@@ -1,0 +1,32 @@
+- name: Install k3s master
+  hosts: master
+  become: true
+  tasks:
+    - name: Install k3s server
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Get k3s token
+      command: cat /var/lib/rancher/k3s/server/token
+      register: k3s_token
+
+    - name: Save token for workers
+      set_fact:
+        node_token: "{{ k3s_token.stdout }}"
+
+- name: Install k3s worker
+  hosts: workers
+  become: true
+  vars:
+    master_host: "{{ hostvars[groups['master'][0]]['inventory_hostname'] }}"
+    token: "{{ hostvars[groups['master'][0]]['node_token'] }}"
+  tasks:
+
+    - name: Install k3s agent
+      shell: |
+        curl -sfL https://get.k3s.io | \
+        K3S_URL=https://{{ master_host }}:6443 \
+        K3S_TOKEN={{ token }} sh -
+      args:
+        creates: /usr/local/bin/k3s-agent
