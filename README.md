@@ -1,8 +1,38 @@
-# 🔬 The Labs - DevSecOps & Security Experiments
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/header/grid.svg?title=The+Labs&subtitle=DevSecOps+%26+Infrastructure+Experiments&logo=flask&theme=zinc&mode=dark&align=center" />
+    <img alt="The Labs" src="https://shieldcn.dev/header/grid.svg?title=The+Labs&subtitle=DevSecOps+%26+Infrastructure+Experiments&logo=flask&theme=zinc&mode=light&align=center" />
+  </picture>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  <a href="https://github.com/victor3spoir/the-labs/stargazers">
+    <img src="https://shieldcn.dev/github/stars/victor3spoir/the-labs.svg?variant=secondary" alt="GitHub stars" />
+  </a>
+  <a href="https://github.com/victor3spoir/the-labs/blob/main/LICENSE">
+    <img src="https://shieldcn.dev/github/license/victor3spoir/the-labs.svg?variant=secondary" alt="License" />
+  </a>
+  <a href="https://github.com/victor3spoir/the-labs/commits">
+    <img src="https://shieldcn.dev/github/last-commit/victor3spoir/the-labs.svg?variant=secondary" alt="Last commit" />
+  </a>
+  <a href="https://github.com/victor3spoir/the-labs/issues">
+    <img src="https://shieldcn.dev/github/issues/victor3spoir/the-labs.svg?variant=secondary" alt="Open issues" />
+  </a>
+</p>
 
-> A showcase of practical DevSecOps and security experiments, hands-on labs, and real-world implementations.
+<p align="center">
+  <img src="https://shieldcn.dev/badge/Docker-2496ED?logo=docker&logoColor=white&variant=branded" alt="Docker" />
+  <img src="https://shieldcn.dev/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white&variant=branded" alt="Kubernetes" />
+  <img src="https://shieldcn.dev/badge/Terraform-7B42BC?logo=terraform&logoColor=white&variant=branded" alt="Terraform" />
+  <img src="https://shieldcn.dev/badge/Ansible-EE0000?logo=ansible&logoColor=white&variant=branded" alt="Ansible" />
+  <img src="https://shieldcn.dev/badge/Prometheus-E6522C?logo=prometheus&logoColor=white&variant=branded" alt="Prometheus" />
+  <img src="https://shieldcn.dev/badge/Grafana-F46800?logo=grafana&logoColor=white&variant=branded" alt="Grafana" />
+  <img src="https://shieldcn.dev/badge/Traefik-24A1C1?logo=traefikproxy&logoColor=white&variant=branded" alt="Traefik" />
+</p>
+
+<p align="center">
+  <em>A showcase of practical DevSecOps and security experiments, hands-on labs, and real-world implementations.</em>
+</p>
 
 ## 📖 About
 
@@ -23,23 +53,36 @@ Each lab represents a complete, working implementation with documentation, resul
 
 ## 📂 Repository Structure
 
+Labs are organized by **domain** using a clear naming convention:
+
 ```
 the-labs/
-├── labs/               # Individual lab experiments
-│   ├── lab-001/       # Lab directory with complete implementation
-│   ├── lab-002/       # Each lab is self-contained
-│   └── ...
-├── experiments/        # Ongoing or exploratory experiments
-├── tools-review/       # Tool evaluations and comparisons
-├── security-demos/     # Security concept demonstrations
-└── docs/              # Additional documentation and notes
+├── observability/           # Logs, metrics, traces
+├── monitoring/              # Alerting, dashboards, health checks
+├── infra/                   # Infrastructure labs
+├── networking/              # Routing, DNS, load balancing
+└── security/                # Auth, secrets, hardening
 ```
+
+### Naming Convention
+
+Each lab follows: `<domain>/<descriptive-name>`
+
+The name must be **self-explanatory** — reading it should tell you exactly what the lab does.
+
+Examples:
+- `observability/loki-logs-ingestion`
+- `monitoring/alertmanager-email`
+- `networking/traefik-reverse-proxy`
+
+See [labs-name.md](labs-name.md) for the complete naming guide.
+
+### Lab Structure
 
 Each lab directory contains:
 - `README.md` - Lab overview, objectives, and setup instructions
-- `docs/` - Detailed documentation and findings
-- `src/` or implementation files - The actual code/configurations
-- `results/` - Screenshots, logs, metrics (when applicable)
+- `compose.yml` or `docker-compose.yml` - Docker Compose configuration
+- Configuration files and scripts as needed
 
 ## 🚀 Getting Started
 
@@ -51,37 +94,56 @@ git clone https://github.com/victor3spoir/the-labs.git
 cd the-labs
 ```
 
-2. **Navigate to a specific lab**
-   Each lab has its own README with specific objectives, setup instructions, and results
+2. **Navigate to a domain**
+   ```bash
+   cd observability    # or monitoring, infra, etc.
+   ls                  # See all labs in that domain
+   ```
 
-3. **Reproduce or learn**
-   Follow the documentation to understand the implementation or reproduce it in your own environment
+3. **Run a specific lab**
+   ```bash
+   cd networking/traefik-reverse-proxy
+   docker compose up -d
+   ```
 
-## 💡 Lab Categories
+4. **Read the documentation**
+   Each lab has its own README with objectives, architecture, and setup instructions
 
-### Security Tools & Scanning
-- SAST/DAST implementations
-- Container security scanning
-- Secret detection and management
-- Vulnerability assessment tools
+## 💡 Lab Domains
 
-### CI/CD Security
-- Secure pipeline implementations
-- Security gates and policy enforcement
-- Automated security testing
-- Supply chain security
+### 📊 Observability
+- Logs ingestion and aggregation
+- Metrics collection and storage
+- Distributed tracing
+- Visualization and dashboards
 
-### Infrastructure Security
-- Cloud security configurations
-- Kubernetes security hardening
-- Network security controls
-- Infrastructure monitoring
+### 🔔 Monitoring
+- Alerting and notification systems
+- Health checks and uptime monitoring
+- Performance monitoring
+- Dashboard creation
 
-### Incident Response & Monitoring
-- Security monitoring setups
-- Log analysis and SIEM
-- Threat detection
-- Incident response automation
+### ⚙️ Infrastructure
+- Container orchestration (Kubernetes)
+- Reverse proxies and load balancers
+- Cron schedulers and automation
+- VM provisioning and IaC (Terraform, Ansible)
+
+### 🌐 Networking
+- DNS and service discovery
+- Load balancing strategies
+- Network routing and policies
+
+### 🧪 Experiments
+- Tool comparisons and benchmarks
+- Proof of concepts
+- Performance testing
+
+### 🔐 Security
+- Authentication and authorization
+- Secrets management
+- Security hardening
+- Vulnerability scanning
 
 ## 🎯 Purpose
 
