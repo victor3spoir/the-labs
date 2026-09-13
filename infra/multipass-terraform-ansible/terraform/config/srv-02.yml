@@ -1,5 +1,5 @@
 #cloud-config
-hostname: srv-dev-02
+hostname: srv-02
 manage_etc_hosts: true
 
 apt_update: true

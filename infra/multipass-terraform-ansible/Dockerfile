@@ -3,5 +3,4 @@ FROM base
 RUN pip install --no-cache-dir ansible \
   && apk update \
   && apk add --no-cache curl openssh-client 
-# sshpass
 ENTRYPOINT [ "/bin/sh" ]
