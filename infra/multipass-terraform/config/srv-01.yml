@@ -1,5 +1,5 @@
 #cloud-config
-hostname: srv-dev-01
+hostname: srv-01
 manage_etc_hosts: true
 
 ssh_pwauth: false
