@@ -30,5 +30,4 @@ services:
     volumes:
       - ./ansible:/ansible:rw
     environment:
-      - ANSIBLE_HOST_KEY_CHECKING=false
       - ANSIBLE_PYTHON_INTERPRETER=auto
