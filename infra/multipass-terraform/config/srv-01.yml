@@ -20,7 +20,7 @@ users:
   - name: demo
     groups: sudo,docker,devops
     shell: /bin/zsh
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
     ssh-authorized-keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZmk9JmH28XMQd+V1vIlNnr0OdAzxrhSVyIrpIM4JIs
 

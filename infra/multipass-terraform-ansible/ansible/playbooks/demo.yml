@@ -1,5 +1,5 @@
 - name: install packages
-  hosts: prod
+  hosts: all
   become: true
 
   tasks:

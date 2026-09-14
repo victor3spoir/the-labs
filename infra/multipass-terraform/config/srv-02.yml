@@ -14,9 +14,12 @@ packages:
   - zsh
   - docker.io
 
+groups:
+  - devops
+
 users:
   - name: demo
-    groups: sudo,docker
+    groups: sudo,docker,devops
     shell: /bin/zsh
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh-authorized-keys:

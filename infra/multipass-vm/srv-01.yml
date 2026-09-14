@@ -11,11 +11,11 @@ packages:
   - zsh
 
 groups:
-  - docker
+  - devops
 
 users:
   - name: demo
-    groups: sudo,docker
+    groups: sudo,devops
     shell: /bin/zsh
     sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
     ssh-authorized-keys:

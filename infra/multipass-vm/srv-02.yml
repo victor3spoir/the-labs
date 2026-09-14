@@ -5,25 +5,21 @@ manage_etc_hosts: true
 apt_update: true
 locale: fr_FR.UTF-8
 
-
-
 packages:
   - build-essential
   - gpg
   - zsh
 
 groups:
-  - docker
+  - devops
 
 users:
   - name: demo
-    groups: sudo,docker
+    groups: sudo,devops
     shell: /bin/zsh
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
     ssh-authorized-keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFuqfhaycTfJKPVZsao0+3YUqEB2SGgnGPr3xlMKmq5r
-
-
 
 runcmd:
   - systemctl enable ssh
