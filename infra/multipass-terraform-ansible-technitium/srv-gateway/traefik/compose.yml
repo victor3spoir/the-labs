@@ -1,0 +1,62 @@
+name: traefik
+
+services:
+  traefik:
+    image: traefik:v3.7.0
+    restart: unless-stopped
+    command:
+      - --configFile=/etc/traefik/traefik.yml
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.25"
+          memory: "200Mib"
+        limits:
+          memory: "400Mib"
+          cpus: "0.5"
+    networks:
+      - docker-net
+    ports:
+      - 80:80
+      - 443:443
+    secrets:
+      - spaceship_api_key
+      - spaceship_api_secret
+    configs:
+      - source: traefik_yml
+        target: /etc/traefik/traefik.yml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/certs:/var/traefik/certs:rw
+      - ./data/logs:/var/log/traefik:rw
+      - ./configs/dynamic:/etc/traefik/dynamic
+    environment:
+      TZ: UTC
+      SPACESHIP_API_KEY_FILE: "/run/secrets/spaceship_api_key"
+      SPACESHIP_API_SECRET_FILE: "/run/secrets/spaceship_api_secret"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-rtr.service: api@internal
+      traefik.http.routers.traefik-rtr.entrypoints: web,websecure
+      traefik.http.routers.traefik-rtr.rule: Host(`gateway.lab.victor3spoir.de`)
+      traefik.http.routers.traefik-rtr.tls: true
+      traefik.http.routers.traefik-rtr.tls.certresolver: spaceship
+      traefik.http.routers.traefik-rtr.tls.domains[0].main: "lab.victor3spoir.de"
+      traefik.http.routers.traefik-rtr.tls.domains[0].sans: "*.lab.victor3spoir.de"
+      # traefik.http.routers.traefik-rtr.middlewares=traefik-mdl
+
+
+
+secrets:
+  spaceship_api_key:
+    file: "./secrets/spaceship_api_key"
+  spaceship_api_secret:
+    file: "./secrets/spaceship_api_secret"
+
+configs:
+  traefik_yml:
+    file: ./configs/traefik.yml
+
+networks:
+  docker-net:
+    external: true

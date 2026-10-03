@@ -1,0 +1,35 @@
+#cloud-config
+hostname: srv-gateway
+manage_etc_hosts: true
+
+apt_update: true
+apt_upgrade: false
+locale: en_US.UTF-8
+timezone: UTC
+
+packages:
+  - build-essential
+  - gpg
+  - zsh
+  - neovim
+
+groups:
+  - devops
+
+users:
+  - name: v3r
+    groups: sudo,devops
+    shell: /bin/zsh
+    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOgNblvDTXaSnv/jc6g8x0cqCIsBLcFgPeChcPacs90A
+  - name: automation
+    groups: sudo
+    # shell: /bin/zsh
+    sudo: [ 'ALL=(ALL) NOPASSWD:ALL' ]
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOgNblvDTXaSnv/jc6g8x0cqCIsBLcFgPeChcPacs90A
+
+runcmd:
+  - systemctl enable ssh
+  - systemctl start ssh

@@ -1,0 +1,25 @@
+# http:
+#   routers:
+#     arcane-rtr:
+#       rule: "Host(`arcane.lab.victor3spoir.de`)"
+#       entryPoints:
+#         - websecure
+#       tls:
+#         certResolver: spaceship
+#       service: srv-prod-core
+
+#     beszel-rtr:
+#       rule: "Host(`beszel.lab.victor3spoir.de`)"
+#       entryPoints:
+#         - websecure
+#       tls:
+#         certResolver: spaceship
+#       service: srv-prod-core
+
+#     infisical-rtr:
+#       rule: "Host(`infisical.lab.victor3spoir.de`)"
+#       entryPoints:
+#         - websecure
+#       tls:
+#         certResolver: spaceship
+#       service: srv-prod-core

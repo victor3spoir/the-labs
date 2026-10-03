@@ -1,0 +1,16 @@
+services:
+  arcane-edge-agent:
+    image: ghcr.io/getarcaneapp/arcane-headless:latest
+    container_name: arcane-edge-agent
+    restart: unless-stopped
+    environment:
+      - EDGE_AGENT=true
+      - EDGE_TRANSPORT=poll
+      - AGENT_TOKEN=arc_4baf0d8ef58a579d234b416dd8a2647d3efc10b8db72350f1b6ef82b8fab6f05
+      - MANAGER_API_URL=https://arcane.lab.victor3spoir.de
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - arcane-data:/app/data
+
+volumes:
+  arcane-data:

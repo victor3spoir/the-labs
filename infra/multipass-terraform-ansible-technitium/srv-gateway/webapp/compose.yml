@@ -1,0 +1,19 @@
+name: webapp
+
+services:
+  webapp:
+    image: nginxdemos/hello:0.4
+    networks:
+      docker-net:
+    labels:
+      traefik.enable: true
+      traefik.http.services.webapp-svc.loadbalancer.server.port: 80
+      traefik.http.routers.webapp-rtr.entrypoints: web,websecure
+      traefik.http.routers.webapp-rtr.rule: Host(`webapp.lab.victor3spoir.de`)
+      traefik.http.routers.webapp-rtr.tls: true
+      traefik.http.routers.webapp-rtr.tls.certresolver: spaceship
+      traefik.http.routers.webapp-rtr.service: webapp-svc
+
+networks:
+  docker-net:
+   external: true
