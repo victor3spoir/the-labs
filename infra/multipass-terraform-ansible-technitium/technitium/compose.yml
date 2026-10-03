@@ -1,0 +1,31 @@
+name: technitium
+
+services:
+  dns-server:
+    container_name: dns-server
+    restart: unless-stopped
+    hostname: dns-server
+    image: docker.io/technitium/dns-server:latest
+    expose:
+      - 5380 #UI
+    network_mode: "host"
+    environment:
+      DNS_SERVER_DOMAIN: localhost
+      DNS_SERVER_ADMIN_PASSWORD: ${DNS_SERVER_ADMIN_PASSWORD:-Password123!}
+      DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS: false 
+      DNS_SERVER_ENABLE_BLOCKING: true 
+      DNS_SERVER_ALLOW_TXT_BLOCKING_REPORT: true 
+      DNS_SERVER_FORWARDERS: 1.1.1.1, 8.8.8.8 
+      DNS_SERVER_LOG_USING_LOCAL_TIME: true 
+      DNS_SERVER_LOG_FOLDER_PATH: /var/log/technitium/dns 
+      DNS_SERVER_LOG_MAX_LOG_FILE_DAYS: 365
+      DNS_SERVER_STATS_ENABLE_IN_MEMORY_STATS: false
+      DNS_SERVER_STATS_MAX_STAT_FILE_DAYS: 365
+    volumes:
+      - dns-server-vol:/etc/dns
+
+
+volumes:
+  dns-server-vol:
+    name: dns-server-vol
+    driver: local

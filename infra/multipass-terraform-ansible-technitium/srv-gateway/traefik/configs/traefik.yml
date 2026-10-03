@@ -1,0 +1,95 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+ping:
+  entryPoint: web
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+    allowACMEByPass: true
+    transport:
+      respondingTimeouts:
+        readTimeout: "0"
+        writeTimeout: "0"
+        idleTimeout: "0"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    watch: true
+    network: docker-net
+  file:
+    directory: "/etc/traefik/dynamic"
+    watch: true
+
+certificatesResolvers:
+  spaceship:
+    acme:
+      email: "victorespoir.dev@gmail.com"
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+      storage: "/var/traefik/certs/spaceship.json"
+      keyType: EC256
+      dnsChallenge:
+        provider: spaceship
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+
+metrics:
+  otlp:
+    addRoutersLabels: true
+    pushInterval: 5s
+    serviceName: traefik
+    explicitBoundaries: [ 0.1, 0.3, 1.2, 5.0 ]
+
+tracing:
+  serviceName: traefik
+  sampleRate: 0.2
+  addInternals: true
+
+log:
+  level: DEBUG # TRACE, INFO, DEBUG, WARN, ERROR, FATAL, PANIC
+  format: json
+  filePath: "/var/log/traefik/traefik.log"
+
+accessLog:
+  format: json
+  addInternals: true
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+  filters:
+    statusCodes:
+      - "200-299"
+      - "400-599"
+  fields:
+    defaultMode: keep
+    names:
+      ClientUsername: drop
+    headers:
+      defaultMode: keep #drop|keep
+      names:
+        User-Agent: keep
+        X-Real-Ip: keep
+        X-Forwarded-For: keep
+        X-Forwarded-Proto: keep
+
+experimental:
+  fastProxy:
+    debug: true
+  plugins:
+    bouncer:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.4.6
+    geoblock:
+      moduleName: github.com/PascalMinder/geoblock
+      version: v0.3.3

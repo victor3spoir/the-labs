@@ -1,0 +1,7 @@
+# http:
+#   services:
+#     srv-prod-core:
+#       loadBalancer:
+#         servers:
+#           - url: "http://srv-prod-core.multipass:80"
+
